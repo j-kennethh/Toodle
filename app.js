@@ -5,17 +5,17 @@ const app = express();
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended: true}));
 
-var items = ["Buy Food", "Cook Food", "Eat Food"];
+let items = ["Buy Food", "Cook Food", "Eat Food"];
 
 
 app.get("/", function (req, res) {
-    var today = new Date();
-    var options = {
+    let today = new Date();
+    let options = {
         weekday: "long",
         day: "numeric",
         month: "long"
     };
-    var day = today.toLocaleDateString("en-GB", options);
+    let day = today.toLocaleDateString("en-GB", options);
     res.render("list", {day: day, items: items});
 });
 
