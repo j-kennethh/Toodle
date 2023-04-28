@@ -1,14 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Toodle</title>
-    <link rel="stylesheet" href="css/styles.css">
-  </head>
-  <body>
+<%- include("header"); -%>
+
     <div class="box" id="heading">
-      <h1><%= day %></h1>
+      <h1><%= listTitle %></h1>
     </div>
     <div class="box">
       <% for(let i = 0; i < items.length; i++) { %>
@@ -19,11 +12,8 @@
       <% } %>
       <form class="item" action="/" method="post">
         <input type="text" name="newItem" placeholder="New Item" autocomplete="off">
-        <button class="submit" type="submit">+</button>
+        <button class="submit" type="submit" name="list" value=<%= listTitle %>>+</button>
       </form>
     </div>
-  </body>
-  <footer>
-    © 2023 John Kenneth
-  </footer>
-</html>
+
+<%- include("footer"); -%>
