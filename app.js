@@ -29,8 +29,6 @@ const item3 = new Item ({
 const defaultItems = [item1, item2, item3];
 
 
-
-
 app.get("/", function (req, res) {
     const day = date.getDate();
 
@@ -48,16 +46,14 @@ app.get("/", function (req, res) {
 });
 
 app.post("/", function (req, res) {
-    const item = req.body.newItem;
+    const itemName = req.body.newItem;
 
-    if (req.body.list === "Work") {
-        workItems.push(item);
-        res.redirect("/work");
-    }
-    else {
-        items.push(item);
-        res.redirect("/");
-    }
+    const item = new Item ({
+        name: itemName
+    });
+
+    item.save();
+    res.redirect("/");
 });
 
 app.get("/work", function (req, res) {
