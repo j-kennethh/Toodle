@@ -56,13 +56,14 @@ app.post("/", function (req, res) {
     res.redirect("/");
 });
 
-app.get("/work", function (req, res) {
-    res.render("list", {listTitle: "Work List", items: workItems});
-});
+app.post("/delete", function (req, res) {
+    const checkedItemId = req.body.checkbox;
 
-app.post("/work", function (req, res) {
-    workItems.push(req.body.newItem); 
-    res.redirect("/work");
+    Item.findByIdAndRemove(checkedItemId).then((status) => {
+        console.log(status);
+    });
+    
+    res.redirect("/");
 });
 
 
