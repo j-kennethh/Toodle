@@ -3,12 +3,13 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const _ = require("lodash");
 const date = require(__dirname + "/date.js");
+require("dotenv").config();
 
 const app = express();
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
-mongoose.connect("mongodb://localhost:27017/toodleDB");
+mongoose.connect("mongodb+srv://j-kenneth:" + process.env.ATLAS_PASSWORD + "@cluster0.goxnahy.mongodb.net/toodleDB");
 
 
 const itemsSchema = new mongoose.Schema({
