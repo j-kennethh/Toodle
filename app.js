@@ -7,8 +7,9 @@ const app = express();
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
-
 mongoose.connect("mongodb://localhost:27017/toodleDB");
+
+
 const itemsSchema = new mongoose.Schema({
     name: String
 });
@@ -29,6 +30,13 @@ const item3 = new Item ({
 const defaultItems = [item1, item2, item3];
 
 
+const listSchema = new mongoose.Schema({
+    name: String,
+    items: [itemsSchema]
+});
+const List = mongoose.model("List", listSchema);
+
+
 app.get("/", function (req, res) {
     const day = date.getDate();
 
@@ -45,6 +53,27 @@ app.get("/", function (req, res) {
     });
 });
 
+
+app.get("/:listName", function (req, res) {
+    const listName = req.params.listName;
+
+    List.findOne({name: listName}).then((foundList) => {
+        if (foundList === null) {
+            const list = new List ({
+                name: listName,
+                items: defaultItems
+            });
+
+            list.save();
+            res.redirect("/" + listName);
+        }
+        else {
+            res.render("list", {listTitle: listName, items: foundList.items});
+        }
+    });
+});
+
+
 app.post("/", function (req, res) {
     const itemName = req.body.newItem;
 
@@ -56,13 +85,14 @@ app.post("/", function (req, res) {
     res.redirect("/");
 });
 
+
 app.post("/delete", function (req, res) {
     const checkedItemId = req.body.checkbox;
 
     Item.findByIdAndRemove(checkedItemId).then((status) => {
         console.log(status);
     });
-    
+
     res.redirect("/");
 });
 
